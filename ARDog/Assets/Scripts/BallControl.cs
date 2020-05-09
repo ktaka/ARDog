@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallContorl : MonoBehaviour
+public class BallControl : MonoBehaviour
 {
     // オブジェクトを生成する際のテンプレートとなるプレハブ
     public GameObject ballObject;
@@ -10,7 +10,7 @@ public class BallContorl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
