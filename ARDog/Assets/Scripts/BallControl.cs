@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallContorl : MonoBehaviour
+public class BallControl : MonoBehaviour
 {
+    public PetControl petControl;
+
     // オブジェクトを生成する際のテンプレートとなるプレハブ
     public GameObject ballObject;
 
@@ -36,6 +38,7 @@ public class BallContorl : MonoBehaviour
             var position = Camera.main.ScreenToWorldPoint(pos);
             // 求めた座標の位置に新しいオブジェクトを生成する
             GameObject obj = Instantiate(ballObject, position, Quaternion.identity);
+            obj.GetComponent<BallOperation>().petControl = petControl;
         }
     }
 
