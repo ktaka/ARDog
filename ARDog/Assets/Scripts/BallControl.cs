@@ -1,16 +1,16 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallControl : MonoBehaviour
 {
+    public PetControl petControl;
     // オブジェクトを生成する際のテンプレートとなるプレハブ
     public GameObject ballObject;
 
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -36,6 +36,7 @@ public class BallControl : MonoBehaviour
             var position = Camera.main.ScreenToWorldPoint(pos);
             // 求めた座標の位置に新しいオブジェクトを生成する
             GameObject obj = Instantiate(ballObject, position, Quaternion.identity);
+            obj.GetComponent<BallOperation>().petControl = petControl;
         }
     }
 

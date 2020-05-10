@@ -10,6 +10,11 @@ using UnityEngine.EventSystems;
 //   IEndDragHandler - ドラッグ終了
 public class BallOperation : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public PetControl petControl;
+    // 衝突回数のカウンター
+    int collisionCount;
+    float yPosition;
+
     Rigidbody rb; // ボールのリジッドボディ
 
     Vector3 startPosition; // ドラッグ開始位置
@@ -22,12 +27,17 @@ public class BallOperation : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
         rb = GetComponent<Rigidbody>();
         // 重力の影響を受けないようにする
         rb.useGravity = false;
+
+        yPosition = -Camera.main.farClipPlane;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if ((rb.position.y - yPosition) < 0)
+        {
+            Destroy(gameObject, 1);
+        }
     }
 
     // オブジェクトをタップ
@@ -76,5 +86,18 @@ public class BallOperation : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
         rb.AddForce(100.0f / dragFactor * moved);
         // 重力の影響を受けるようにする
         rb.useGravity = true;
+    }
+
+    // オブジェクトの衝突があった際に呼び出される
+    private void OnCollisionEnter(Collision collision)
+    {
+        collisionCount++;
+        // 2回以上衝突した場合
+        if (collisionCount > 1)
+        {
+            // 子猫をボールの衝突位置まで動かす
+            petControl.MoveTo(transform.position);
+            collisionCount = 0;
+        }
     }
 }
